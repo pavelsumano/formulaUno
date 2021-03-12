@@ -1,0 +1,122 @@
+type Query {
+    """ Lista de las temporadas de la Formula 1. De 1950 a 2020 """
+    seasonsList: [Season!]!
+
+    """ Obtenemos la información de las carreras por año
+    Tener en cuenta que solo existen De 1950 a 2020"""
+    racesByYear(year: String!): [Race!]!
+
+    """ Carrera seleccionada por anio y numero de carrera"""
+    raceSelect(year: String!, round: Int!): Race
+
+    """Lista de los pilotos de la F1 de toda la historia
+        Tenemos dos opciones:
+        1) Obtener todos los pilotos
+        2) Usamos Paginación y podemos limitar el numero de resultados """
+    historyDrivers(pageElements: Int, page: Int): [Driver!]! 
+    
+    """Lista de los pilotos de la F1 por año
+    """
+    driversYear(year: String!): [Driver!]!
+
+    """Lista de los pilotos de la F1 por año y por Carrera
+        Tener en cuenta que solo existen De 1950 a 2020"""
+    driversYearAndRound(year: String!, round: Int!): [Driver!]!
+
+    """Lista de los pilotos de la F1 por ID
+    """
+    driverSelect(id: String!): Driver
+
+    """
+    Clasificación final de los pilotos de la F1 por año
+    """
+    seasonPilotsRanking(year: String!): [DriverStanding!]!
+
+    """
+    Circuitos historicos
+    """
+    historyCircuits(pageElements: Int, page: Int): [Circuit!]!
+
+    """
+    Cicuito Seleccionado"""
+    circuitSelect(id: String!): Circuit
+}
+    
+
+
+"""
+Información de la temporada
+"""
+type Season {
+    "Año de la temporada"
+    year: String!
+    "Info de wikipedia"
+    url: String!
+    urlMobile: String!
+}
+
+"""
+Información de la carrera
+"""
+type Race {
+    season: String!
+    round: String!
+    url: String!
+    urlMobile: String!
+    name: String!
+    circuit: Circuit
+    date: String!
+    time: String
+}
+
+"""
+Información de los circuitos
+"""
+type Circuit {
+    id: String!
+    url: String!
+    urlMobile: String!
+    name: String!
+    location: Location!
+}
+
+"""
+Información de la localidades
+"""
+type Location {
+    lat: String!
+    lng: String!
+    locality: String!
+    country: String!
+}
+
+"""
+Información de los conductores
+"""
+type Driver {
+    id: String!
+    url: String!
+    urlMobile: String!
+    name: String!
+    dateOfBirth: String!
+    nationality: String!
+    code: String
+    permanentNumber: String
+}
+
+type DriverStanding {
+  position: String!
+  positionText: String!
+  points: String!
+  wins: String!
+  driver: Driver!
+  constructors: [Constructor!]!
+}
+
+type Constructor {
+  id: String!
+  url: String!
+  urlMobile: String!
+  name: String!
+  nationality: String!
+}
